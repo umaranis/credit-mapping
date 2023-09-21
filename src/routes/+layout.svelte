@@ -19,23 +19,23 @@
 			<svelte:fragment slot="trail">
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
+					href="https://umaranis.com"
 					target="_blank"
 					rel="noreferrer"
 				>
-					Discord
+					Docs
 				</a>
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
+					href="https://federation.edu.au/"
 					target="_blank"
 					rel="noreferrer"
 				>
-					Twitter
+					FedUni
 				</a>
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
+					href="https://github.com/JamesRun19/CreditMapping"
 					target="_blank"
 					rel="noreferrer"
 				>
