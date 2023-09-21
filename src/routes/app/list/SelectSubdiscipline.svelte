@@ -12,7 +12,7 @@
 		placement: 'bottom'
 	};
 
-	let inputPopupDemo: string = '';
+	export let inputPopupDemo: string = '';
 
 	function onPopupDemoSelect(event: CustomEvent<AutocompleteOption>): void {
 		inputPopupDemo = event.detail.label;
@@ -29,7 +29,7 @@
 	// ];
 </script>
 
-<div class="text-token w-full max-w-sm space-y-2">
+<div class="text-token w-full max-w-sm space-y-2" style="display: inline-block">
 	<input
 		class="input autocomplete"
 		type="search"
