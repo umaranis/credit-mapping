@@ -15,7 +15,7 @@
 		</figure>
 		<!-- / -->
 		<div class="flex justify-center space-x-2">
-			<a class="btn variant-filled" href="app/view"> Launch </a>
+			<a class="btn variant-filled" href="app/list"> Launch </a>
 		</div>
 		<div class="space-y-2">
 			<p>ITECH 7415 Masters Project. Developed by:</p>

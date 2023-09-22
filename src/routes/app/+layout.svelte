@@ -37,7 +37,7 @@
 				</AppRailAnchor>
 			</svelte:fragment>
 			<!-- --- -->
-			<AppRailAnchor href="/app/view" selected={$currentPage === 'view'}>
+			<AppRailAnchor href="/app/list" selected={$currentPage === 'list'}>
 				<svelte:fragment slot="lead">
 					<div class="icon">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

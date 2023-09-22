@@ -1,9 +1,14 @@
 <script lang="ts">
-	import { Table } from '@skeletonlabs/skeleton';
-import type { PageData } from './$types';
+    import type { PageData } from './$types';
 	import SelectSubdiscipline from './SelectSubdiscipline.svelte';
 	import { convertDBtoUIList, disciplineIsValid, findCourses } from './dataHelper';
-	export let data: PageData;
+	
+    import { getContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
+
+    export let data: PageData;
+	const currentPage = getContext<Writable<string>>('currentPage');
+	$currentPage = 'list';
 
 	const subdisciplineList = convertDBtoUIList(data.subdisciplines);
     let inputPopupDemo= '';
@@ -40,10 +45,11 @@ import type { PageData } from './$types';
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>unitid</th>
+                        <th>Unit Id</th>
                         <th>Name</th>
-                        <th>gradingbasis</th>
+                        <th>Grading Basis</th>
                         <th>asced</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +59,7 @@ import type { PageData } from './$types';
                             <td>{row.name}</td>
                             <td>{row.gradingbasis}</td>
                             <td>{row.asced}</td>
+                            <td><a href="/app/view/{row.unitid}">View</a></td>
                         </tr>
                     {/each}
                 </tbody>
