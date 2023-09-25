@@ -23,12 +23,12 @@
 
 <div style="margin:20px auto; width:90%;">
     <div style="width:45%;display:inline-block">
-        <textarea style="width:100%;height:1000px;color:black;">
+        <textarea style="width:100%;height:700px;color:black;">
             {full}
         </textarea>
     </div>
-    <div style="width:45%;height:1000px; display:inline-block;color:black;">
-        <textarea style="width:100%;height:1000px;"></textarea>
+    <div style="width:45%;height:700px; display:inline-block;color:black;">
+        <textarea style="width:100%;height:700px;"></textarea>
     </div>
 </div>
 
