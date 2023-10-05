@@ -12,10 +12,10 @@
   
 	// Function to check sentence similarity
 	async function checkSimilarity() {
-	  const response = await fetch('/api/sentence-similarity', {
+	  const response = await fetch('/api/sentence-similarity', {	
 		method: 'POST',
 		headers: {
-		  'Content-Type': 'application/x-www-form-urlencoded',
+		  'Content-Type': 'application/json',
 		},
 		body: new URLSearchParams({
 		  sentence1,
@@ -30,8 +30,8 @@
 this is compare  
   <main>
 	<!-- Sentence Textareas -->
-	<textarea bind:value={sentence1}></textarea>
-	<textarea bind:value={sentence2}></textarea>
+	<textarea style="color: black;" rows="20" cols="50" bind:value={sentence1}></textarea>
+	<textarea style="color: black;" rows="20" cols="50" bind:value={sentence2}></textarea>
   
 	<!-- Check Similarity Button -->
 	<button on:click={checkSimilarity}>Check Similarity</button>
