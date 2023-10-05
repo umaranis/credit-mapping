@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
 # API endpoint for sentence similarity
-@app.route("/api/sentence-similarity", methods=["POST"])
+@app.route("/api/sentence-similarity", methods=["GET", "POST"])
 def handle_sentence_similarity():
     #sentence1 = request.form['sentence1']
     #sentence2 = request.form['sentence2']
@@ -18,8 +18,8 @@ def handle_sentence_similarity():
     sentence2 = request.json.get('sentence2')
     print(sentence1, sentence2)
 
-    similarity_result = compute_sentence_similarity(sentence1, sentence2)
-    return jsonify({"sentence_similarity_result": similarity_result})
+    similarity_result, similarity_score = compute_sentence_similarity(sentence1, sentence2)
+    return jsonify({"sentence_similarity_result": similarity_result, "similarity_score": similarity_score})
 
 def compute_sentence_similarity(sentence1, sentence2):
     cosine_scores = None
@@ -32,7 +32,7 @@ def compute_sentence_similarity(sentence1, sentence2):
 
     cosine_score_strings.append(cosine_scores)
 
-    return f"Similarity Score: {str(cosine_scores)[11:13]}%"
+    return f"Similarity Score: {str(cosine_scores)[11:13]}%", float(cosine_scores)
 
 # Your existing functions...
 
