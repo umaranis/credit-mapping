@@ -177,7 +177,7 @@ async function handleUpload(event) {
   
 	<!-- Similarity Result Display -->
 	{#if sentenceSimilarityResult}
-	  <div class="score">{sentenceSimilarityResult}</div>
+	  <div class="score"><b><u>{sentenceSimilarityResult}</u></b></div>
 	  {#if trafficlightVisibile}
 		<div class="center-container">
 			<div class="response-container">
@@ -283,8 +283,8 @@ async function handleUpload(event) {
 }
 
 	.traffic-light {
-    width: 50px;
-    height: 150px;
+    width: 200px;
+    height: 50px;
     border: 2px solid white;
     border-radius: 8px;
     margin-right: 20px;
