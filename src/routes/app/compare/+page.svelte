@@ -14,6 +14,8 @@
 	let sentenceSimilarityResult = '';
 	let similarity_score: number = 0;
 	var formType = "sentence_similarity";
+	let wordCount1 = 0;
+	let wordCount2 = 0;
 
 	let trafficlightVisibile = false;
   
@@ -78,7 +80,23 @@
             }
 	}
 	onMount(() => {
+		updateWordCount('sentence1');
+		updateWordCount('sentence2')
 		});
+
+//WORD COUNTING
+function updateWordCount(textAreaId) {
+    const text = textAreaId === 'sentence1' ? sentence1 : sentence2;
+    const words = text.trim().split(/\s+/);
+    const count = words.filter(word => word.length > 0).length;
+
+    if (textAreaId === 'sentence1') {
+      wordCount1 = count;
+    } else if (textAreaId === 'sentence2') {
+      wordCount2 = count;
+    }
+  }
+
 </script>
 
 
@@ -88,11 +106,13 @@
 	<div class="textarea-container">
 		<div class="textarea-group">
 			<h1>Federation University Course:</h1>
-			<textarea placeholder="Enter Federation University course information here:" style="color: black;" rows="18" cols="80" bind:value={sentence1}></textarea>
+			<textarea id="sentence1" placeholder="Enter Federation University course information here:" style="color: black;" rows="14" cols="80" bind:value={sentence1} on:input={() => updateWordCount('sentence1')}></textarea>
+			<div id="wordCount1">Word count: {wordCount1} /384</div>
 		  </div>
 		<div class="textarea-group">
 			<h1>External University Course:</h1>
-			<textarea placeholder="Enter External University course information here:" style="color: black;" rows="18" cols="80" bind:value={sentence2}></textarea>
+			<textarea id="sentence2" placeholder="Enter External University course information here:" style="color: black;" rows="14" cols="80" bind:value={sentence2} on:input={() => updateWordCount('sentence2')}></textarea>
+			<div id="wordCount2">Word count: {wordCount2} /384</div>
 		</div>
 	</div>
   
