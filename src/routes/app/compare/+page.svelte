@@ -97,6 +97,44 @@ function updateWordCount(textAreaId) {
     }
   }
 
+//PDF UPLOAD
+
+let selectedTextarea = 'sentence1';
+
+async function handleUpload(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+	 
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/upload-pdf', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const pdfText = await response.text();
+        console.log('PDF Text:', pdfText);
+
+		if (selectedTextarea === 'sentence1') {
+          sentence1 = pdfText;
+          updateWordCount('sentence1');
+        } else if (selectedTextarea === 'sentence2') {
+          sentence2 = pdfText;
+          updateWordCount('sentence2');
+        }
+
+		//if (selectedTextarea)
+		//sentence1 = pdfText;
+		//updateWordCount('sentence1');
+      } else {
+        console.error('Error uploading PDF');
+      }
+    } catch (error) {
+      console.error('Error', error);
+    }
+  }
+
 </script>
 
 
@@ -114,6 +152,21 @@ function updateWordCount(textAreaId) {
 			<textarea id="sentence2" placeholder="Enter External University course information here:" style="color: black;" rows="14" cols="80" bind:value={sentence2} on:input={() => updateWordCount('sentence2')}></textarea>
 			<div id="wordCount2">Word count: {wordCount2} /384</div>
 		</div>
+		<br>
+	</div>
+	<div class="pdf">
+		<form class="uploadForm" on:submit={handleUpload} method="POST" enctype="multipart/form-data" id="form1">
+			<label for="file1">Upload pdf file:</label>
+			<input type="file" name="file1" id="file1" accept=".pdf">
+			<br><br>
+			<label for="targetTextarea">Where to upload?:</label>
+			<select style="color: black;" bind:value={selectedTextarea} id="targetTextarea">
+				<option value="sentence1">Federation University Course</option>
+				<option value="sentence2">External University Course</option>
+			</select>
+			<br><br>
+			<input class="pill" type="submit" value="Upload">
+		</form>
 	</div>
   
 	<!-- Check Similarity Button -->
@@ -136,10 +189,44 @@ function updateWordCount(textAreaId) {
 		</div>
 	  {/if}
 	{/if}
+
+	
 	
   </main>
 
 <style>
+.pdf {
+	width: 75%;
+	border: solid white 1px;
+	margin: auto;
+	padding-left: 20px;
+	padding-right: 20px; 
+	padding-bottom: 10px;
+	margin-top: 20px;
+}
+.pill {
+	background-color: #ddd;
+	border: none;
+	color: black;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 16px;
+	width: 150px;
+	margin-left: 20px;
+}
+.uploadForm {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .uploadForm label {
+    margin-right: 10px;
+  }
 .title {
 	font-size: 40px;
 	padding: 30px;
