@@ -17,19 +17,23 @@
 
 </script>
 
+<h1>THIS PAGE THIS PAGE THIS PAGE</h1>
+
 <h1>View Course</h1>
 <label>Unit ID: {data.unitid}</label>
 
 
 <div style="margin:20px auto; width:90%;">
     <div style="width:45%;display:inline-block">
-        <textarea style="width:100%;height:700px;color:black;">
+        <textarea id="sentence1" name="sentence1" style="width:100%;height:700px;color:black;">
             {full}
         </textarea>
+        
     </div>
     <div style="width:45%;height:700px; display:inline-block;color:black;">
-        <textarea style="width:100%;height:700px;"></textarea>
+        <textarea id="sentence2" name="sentence2" style="width:100%;height:700px;"></textarea>
     </div>
+    
 </div>
 
 <div style="padding-bottom: 10px;">
