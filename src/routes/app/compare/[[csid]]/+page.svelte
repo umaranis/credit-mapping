@@ -2,14 +2,26 @@
 	import { getContext, onMount, tick } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { afterUpdate } from 'svelte';
+	import type { PageData } from './$types';
+    
 
 	import jquery from 'jquery';
+
+
 
 	const currentPage = getContext<Writable<string>>('currentPage');
 	$currentPage = 'compare';
 
+	export let data: PageData;
+	let full: string = "";
+	if(data && data.courseDesc){
+		for(let i=0;i<data.courseDesc.length;i++){
+			full += data.courseDesc[i].content + "\n\n";
+		}
+	}
+
 	//import { json } from 'node:stream/consumers';
-	let sentence1 = '';
+	let sentence1 = full;
 	let sentence2 = '';
 	let sentenceSimilarityResult = '';
 	let similarity_score: number = 0;
@@ -139,11 +151,11 @@ async function handleUpload(event) {
 
 
   <main>
-	<p class="title">Compare Courses (Text Entry)</p>
+	<p class="title">Compare Courses</p>
 	<!-- Sentence Textareas -->
 	<div class="textarea-container">
 		<div class="textarea-group">
-			<h1>Federation University Course:</h1>
+			<h1>Federation University Course: {data.unitid? data.unitid:''}</h1>
 			<textarea id="sentence1" placeholder="Enter Federation University course information here:" style="color: black;" rows="14" cols="80" bind:value={sentence1} on:input={() => updateWordCount('sentence1')}></textarea>
 			<div id="wordCount1">Word count: {wordCount1} /384</div>
 		  </div>
