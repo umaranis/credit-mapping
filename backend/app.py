@@ -17,10 +17,10 @@ def handle_sentence_similarity():
     print(request.json)
     sentence1 = request.json.get('sentence1')
     sentence2 = request.json.get('sentence2')
-    print(sentence1, sentence2)
+    #print(sentence1, sentence2)
 
-    similarity_result, similarity_score = compute_sentence_similarity(sentence1, sentence2)
-    return jsonify({"sentence_similarity_result": similarity_result, "similarity_score": similarity_score})
+    similarity_score = compute_sentence_similarity(sentence1, sentence2)
+    return jsonify({"similarity_score": similarity_score})
 
 def compute_sentence_similarity(sentence1, sentence2):
     cosine_scores = None
@@ -32,8 +32,8 @@ def compute_sentence_similarity(sentence1, sentence2):
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
 
     cosine_score_strings.append(cosine_scores)
-
-    return f"Similarity Score: {str(cosine_scores)[11:13]}%", float(cosine_scores)
+    
+    return float(cosine_scores)
 
 @app.route("/api/upload-pdf", methods=["POST"])
 def upload_pdf():

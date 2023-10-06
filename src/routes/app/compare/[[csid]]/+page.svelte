@@ -23,7 +23,6 @@
 	//import { json } from 'node:stream/consumers';
 	let sentence1 = full;
 	let sentence2 = '';
-	let sentenceSimilarityResult = '';
 	let similarity_score: number = 0;
 	var formType = "sentence_similarity";
 	let wordCount1 = 0;
@@ -48,7 +47,6 @@
 	  });
 	  if (response.ok) {
 		const data = await response.json();
-		sentenceSimilarityResult = data.sentence_similarity_result;
 		similarity_score = parseFloat(data.similarity_score);
 		similarity_score = similarity_score * 100;
 
@@ -188,8 +186,8 @@ async function handleUpload(event) {
 	</div>
   
 	<!-- Similarity Result Display -->
-	{#if sentenceSimilarityResult}
-	  <div class="score"><b><u>{sentenceSimilarityResult}</u></b></div>
+	{#if similarity_score}
+	  <div class="score"><b><u>{Math.round(similarity_score)}%</u></b></div>
 	  {#if trafficlightVisibile}
 		<div class="center-container">
 			<div class="response-container">
