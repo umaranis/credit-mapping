@@ -8,13 +8,48 @@ app = Flask(__name__)
 #CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}})
 CORS(app)
 
+@app.route("/api/text-similarity", methods=["GET", "POST"])
+def handle_text_similarity():
+    text1 = request.json.get('text1')
+    text2 = request.json.get('text2')
+
+    text1_lines, text2_lines, similarity_score = compute_text_similarity(text1, text2)
+    return jsonify({"similarity_score": similarity_score, "text1_lines": text1_lines, "text2_lines": text2_lines})
+
+def compute_text_similarity(text1, text2):
+    from nltk.tokenize import sent_tokenize
+    text1_lines = sent_tokenize(text1)
+    text2_lines = sent_tokenize(text2)
+
+    cosine_scores = None
+
+    # calculate embeddings for each sentence in text1_lines
+    embeddings1 = [0] * len(text1_lines)
+    for i in range(len(text1_lines)):
+        embeddings1[i] = model.encode(text1_lines[i], convert_to_tensor=True)
+
+    # calculate embeddings for each sentence in text2_lines
+    embeddings2 = [0] * len(text2_lines)
+    for i in range(len(text2_lines)):
+        embeddings2[i] = model.encode(text2_lines[i], convert_to_tensor=True)
+        
+    # create multiple dimensional array in python
+    r = len(text1_lines)
+    c = len(text2_lines)
+    arr = [[0] * c for i in range(r)]
+
+    # compare each sentence in text1 with each sentence in text2
+    for i in range(len(text1_lines)):
+        for j in range(len(text2_lines)):        
+            arr[i][j] = util.cos_sim(embeddings1[i], embeddings2[j]).item() * 100
+
+    return text1_lines, text2_lines, arr;
+
 # API endpoint for sentence similarity
 @app.route("/api/sentence-similarity", methods=["GET", "POST"])
 def handle_sentence_similarity():
-    #sentence1 = request.form['sentence1']
-    #sentence2 = request.form['sentence2']
 
-    print(request.json)
+    #print(request.json)
     sentence1 = request.json.get('sentence1')
     sentence2 = request.json.get('sentence2')
     #print(sentence1, sentence2)
