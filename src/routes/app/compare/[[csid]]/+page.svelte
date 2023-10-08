@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { getContext, onMount, tick } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import { afterUpdate } from 'svelte';
 	import type { PageData } from './$types';
+
+  import {checkSentenceSimilarity, checkTextSimilarity} from '$lib/aiModel';
 
 	import jquery from 'jquery';
 
@@ -19,8 +20,7 @@
 
 	let sentence1 = full;
 	let sentence2 = '';
-	let similarity_score: number = 0;
-	var formType = 'sentence_similarity';
+	let similarity_score: number | null = 0;
 	let wordCount1 = 0;
 	let wordCount2 = 0;
 
@@ -28,23 +28,7 @@
 
 	// Function to check sentence similarity
 	async function checkSimilarity() {
-		let requestData = {
-			form_type: formType,
-			sentence1: sentence1,
-			sentence2: sentence2
-		};
-		try {
-			const response = await fetch('http://127.0.0.1:5000/api/sentence-similarity', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestData)
-			});
-			if (response.ok) {
-				const data = await response.json();
-				similarity_score = parseFloat(data.similarity_score);
-				similarity_score = similarity_score * 100;
+        similarity_score = await checkSentenceSimilarity(sentence1, sentence2);
 
 				trafficlightVisibile = true;
 
@@ -52,10 +36,8 @@
 
 				updateTrafficLight(similarity_score);
 				updateResponseText(similarity_score);
-			}
-		} catch (error) {
-			console.error('Error', error);
-		}
+		
+		
 	}
 	function updateTrafficLight(similarity_score: number) {
 		var trafficLightDiv = jquery('#traffic_light');
@@ -88,8 +70,12 @@
 		updateWordCount('sentence2');
 	});
 
+  async function compareText() {
+    console.log(await checkTextSimilarity(sentence1, sentence2));
+  }
+
 	//WORD COUNTING
-	function updateWordCount(textAreaId) {
+	function updateWordCount(textAreaId: string) {
 		const text = textAreaId === 'sentence1' ? sentence1 : sentence2;
 		const words = text.trim().split(/\s+/);
 		const count = words.filter((word) => word.length > 0).length;
@@ -198,6 +184,9 @@
 	<div class="centreelement">
 		<button class="comparebutton" id="check_similarity_button" on:click={checkSimilarity}
 			>Check Similarity</button
+		>
+    <button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
+			>Check Text Similarity</button
 		>
 	</div>
 
