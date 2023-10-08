@@ -51,5 +51,4 @@ export async function checkSentenceSimilarity(sentence1: string, sentence2: stri
     }
 
     return null;
-
 }

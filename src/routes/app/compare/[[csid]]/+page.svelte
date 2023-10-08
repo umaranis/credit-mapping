@@ -2,10 +2,9 @@
 	import { getContext, onMount, tick } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { PageData } from './$types';
+    import SimilarityScore from './SimilarityScore.svelte';
 
   import {checkSentenceSimilarity, checkTextSimilarity} from '$lib/aiModel';
-
-	import jquery from 'jquery';
 
 	const currentPage = getContext<Writable<string>>('currentPage');
 	$currentPage = 'compare';
@@ -24,47 +23,11 @@
 	let wordCount1 = 0;
 	let wordCount2 = 0;
 
-	let trafficlightVisibile = false;
-
 	// Function to check sentence similarity
 	async function checkSimilarity() {
         similarity_score = await checkSentenceSimilarity(sentence1, sentence2);
-
-				trafficlightVisibile = true;
-
-				await tick();
-
-				updateTrafficLight(similarity_score);
-				updateResponseText(similarity_score);
-		
-		
 	}
-	function updateTrafficLight(similarity_score: number) {
-		var trafficLightDiv = jquery('#traffic_light');
 
-		//trafficLightDiv.removeClass("green yellow red");
-
-		console.log('Current score' + similarity_score);
-
-		if (similarity_score >= 80) {
-			trafficLightDiv.css('background-color', 'green');
-		} else if (similarity_score >= 60) {
-			trafficLightDiv.css('background-color', 'yellow');
-		} else {
-			trafficLightDiv.css('background-color', 'red');
-		}
-	}
-	function updateResponseText(similarity_score: number) {
-		var responseText = jquery('#response_text');
-
-		if (similarity_score >= 80) {
-			responseText.text('High Similarity: The content is very similar.');
-		} else if (similarity_score >= 60) {
-			responseText.text('Medium Similarity: There is some similarity in the content.');
-		} else {
-			responseText.text('Low Similarity: The content is not very similar.');
-		}
-	}
 	onMount(() => {
 		updateWordCount('sentence1');
 		updateWordCount('sentence2');
@@ -191,19 +154,7 @@
 	</div>
 
 	<!-- Similarity Result Display -->
-	{#if similarity_score}
-		<div class="score"><b><u>{Math.round(similarity_score)}%</u></b></div>
-		{#if trafficlightVisibile}
-			<div class="center-container">
-				<div class="response-container">
-					<div class="traffic-light" id="traffic_light" />
-					<div class="response-text-container">
-						<p id="response_text" />
-					</div>
-				</div>
-			</div>
-		{/if}
-	{/if}
+	<SimilarityScore {similarity_score}/>
 </main>
 
 <style>
@@ -243,13 +194,7 @@
 		font-size: 40px;
 		padding: 30px;
 	}
-	.score {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-top: 20px;
-		height: 40px;
-	}
+	
 	.textarea-container {
 		display: flex;
 		justify-content: center;
@@ -276,41 +221,5 @@
 		font-weight: bold;
 		margin: auto;
 		border: 1px solid white;
-	}
-	.response-container {
-		display: flex;
-		align-items: center;
-	}
-
-	.center-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: auto;
-	}
-
-	.response-container {
-		display: flex;
-		align-items: center;
-	}
-
-	.traffic-light {
-		width: 200px;
-		height: 50px;
-		border: 2px solid white;
-		border-radius: 8px;
-		margin-right: 20px;
-	}
-	.response-text-container {
-		flex-grow: 1;
-	}
-	.green {
-		background-color: green;
-	}
-	.yellow {
-		background-color: yellow;
-	}
-	.red {
-		background-color: red;
 	}
 </style>
