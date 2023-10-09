@@ -61,6 +61,24 @@ function calculateScores(compareResult: CompareResult): void {
     compareResult.final_score = sum / (text1_lines_scores.length + text2_lines_scores.length);
 }
 
+export function getText2LinesSortedGivenText1Line(compareResult: CompareResult, text1_line_index: number) {
+    const arr = compareResult.similarity_score[text1_line_index];
+
+    const arr_with_index = [];
+    for (let i = 0; i < arr.length; i++) {
+        arr_with_index.push([arr[i], i]);
+    }
+    arr_with_index.sort(function(left, right) {
+        return left[0] > right[0] ? -1 : 1;
+    });
+    const indexes = [];
+    for (let j = 0; j < arr_with_index.length; j++) {
+        indexes.push(arr_with_index[j][1]);
+    }
+
+    return indexes;
+}
+
 export async function checkSentenceSimilarity(
 	sentence1: string,
 	sentence2: string

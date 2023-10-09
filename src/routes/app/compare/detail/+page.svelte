@@ -4,12 +4,32 @@
 	import { getContext } from 'svelte';
 	import { getScoreColor } from '$lib/helper';
 	import TextContainer from './TextContainer.svelte';
+	import { getText2LinesSortedGivenText1Line } from '$lib/aiModel';
 
 	const currentPage = getContext<Writable<string>>('currentPage');
 	$currentPage = 'detail';
 
 	let selectedIndex1: number | null = null;
 	let selectedIndex2: number | null = null;
+  
+
+	let sortIndexes1: number[] = [...Array($compareResult?.text1_lines.length).keys()];
+	let sortIndexes2: number[] = [...Array($compareResult?.text2_lines.length).keys()];
+	$: if ($compareResult) {
+		if (selectedIndex1 === null) {
+			sortIndexes2 = [...Array($compareResult?.text2_lines.length).keys()];
+		} else {
+			sortIndexes2 = getText2LinesSortedGivenText1Line($compareResult, selectedIndex1);
+		}
+	}
+
+	let text1_lines_scores: number[] = $compareResult?.text1_lines_scores ?? [];
+	let text2_lines_scores: number[] = $compareResult?.text2_lines_scores ?? [];
+  $: if(selectedIndex1 !== null) {
+    text2_lines_scores = $compareResult?.similarity_score[selectedIndex1] ?? [];
+  } else {
+    text2_lines_scores = $compareResult?.text2_lines_scores ?? [];
+  }
 
 	function handleLineSelection1(e: CustomEvent) {
 		if (e.detail.selectedIndex !== null) {
@@ -32,15 +52,17 @@
 		<TextContainer
 			heading="Federation University Course:"
 			text_lines={$compareResult.text1_lines}
-			text_lines_scores={$compareResult.text1_lines_scores}
+			text_lines_scores={text1_lines_scores}
 			bind:selectedIndex={selectedIndex1}
+			sortIndexes={sortIndexes1}
 			on:lineSelected={handleLineSelection1}
 		/>
 		<TextContainer
 			heading="Other Institution Course:"
 			text_lines={$compareResult.text2_lines}
-			text_lines_scores={$compareResult.text2_lines_scores}
+			text_lines_scores={text2_lines_scores}
 			bind:selectedIndex={selectedIndex2}
+			sortIndexes={sortIndexes2}
 			on:lineSelected={handleLineSelection2}
 		/>
 	</main>
