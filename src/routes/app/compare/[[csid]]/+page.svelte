@@ -17,9 +17,12 @@
 			full += data.courseDesc[i].content + '\n\n';
 		}
 	}
+	else {
+		full = localStorage.getItem('text1') ?? '';
+	}
 
 	let sentence1 = full;
-	let sentence2 = '';
+	let sentence2 = localStorage.getItem('text2') ?? '';
 	let similarity_score: number | null = 0;
 	let wordCount1 = 0;
 	let wordCount2 = 0;
@@ -35,6 +38,8 @@
 	});
 
   async function compareText() {
+	localStorage.setItem('text1', sentence1);
+	localStorage.setItem('text2', sentence2);
 	const result = await checkTextSimilarity(sentence1, sentence2);
 	console.log(result);	
 	$compareResult = result;

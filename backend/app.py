@@ -16,10 +16,18 @@ def handle_text_similarity():
     text1_lines, text2_lines, similarity_score = compute_text_similarity(text1, text2)
     return jsonify({"similarity_score": similarity_score, "text1_lines": text1_lines, "text2_lines": text2_lines})
 
-def compute_text_similarity(text1, text2):
+
+def getSentencesFromText_NLTK(text):
     from nltk.tokenize import sent_tokenize
-    text1_lines = sent_tokenize(text1)
-    text2_lines = sent_tokenize(text2)
+    return sent_tokenize(text)
+
+def getSentencesFromText_Simple(text):
+    lines =  text.split('\n')
+    return [x for x in lines if len(x.strip()) > 0]
+
+def compute_text_similarity(text1, text2):
+    text1_lines = getSentencesFromText_Simple(text1)
+    text2_lines = getSentencesFromText_Simple(text2)
 
     cosine_scores = None
 
