@@ -34,7 +34,9 @@
 	});
 
   async function compareText() {
-    console.log(await checkTextSimilarity(sentence1, sentence2));
+	const result = await checkTextSimilarity(sentence1, sentence2);
+    console.log(result);	
+	similarity_score = result?.final_score ?? null;
   }
 
 	//WORD COUNTING
@@ -146,14 +148,13 @@
 	<br />
 	<div class="centreelement">
 		<button class="comparebutton" id="check_similarity_button" on:click={checkSimilarity}
-			>Check Similarity</button
+			>Check Sentence Similarity</button
 		>
     <button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
 			>Check Text Similarity</button
 		>
 	</div>
 
-	<!-- Similarity Result Display -->
 	<SimilarityScore {similarity_score}/>
 </main>
 
