@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { getContext, onMount, tick } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { PageData } from './$types';
     import SimilarityScore from './SimilarityScore.svelte';
 
   import {checkSentenceSimilarity, checkTextSimilarity} from '$lib/aiModel';
+	import { compareResult } from '../store';
 
 	const currentPage = getContext<Writable<string>>('currentPage');
 	$currentPage = 'compare';
@@ -35,7 +36,8 @@
 
   async function compareText() {
 	const result = await checkTextSimilarity(sentence1, sentence2);
-    console.log(result);	
+	console.log(result);	
+	$compareResult = result;
 	similarity_score = result?.final_score ?? null;
   }
 
@@ -150,10 +152,11 @@
 		<button class="comparebutton" id="check_similarity_button" on:click={checkSimilarity}
 			>Check Sentence Similarity</button
 		>
-    <button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
+    	<button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
 			>Check Text Similarity</button
 		>
 	</div>
+	<a href="/app/compare/detail">Detailed Analysis</a>
 
 	<SimilarityScore {similarity_score}/>
 </main>
