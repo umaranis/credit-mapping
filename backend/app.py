@@ -49,7 +49,7 @@ def compute_text_similarity(text1, text2):
     # compare each sentence in text1 with each sentence in text2
     for i in range(len(text1_lines)):
         for j in range(len(text2_lines)):        
-            arr[i][j] = util.cos_sim(embeddings1[i], embeddings2[j]).item() * 100
+            arr[i][j] = (util.cos_sim(embeddings1[i], embeddings2[j]).item() * 100) + 10
 
     return text1_lines, text2_lines, arr;
 
