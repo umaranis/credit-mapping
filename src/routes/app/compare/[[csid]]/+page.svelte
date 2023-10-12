@@ -160,8 +160,9 @@
     	<button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
 			>Check Text Similarity</button
 		>
+		<div class="button"><a href="/app/compare/detail">Detailed Analysis</a></div>
 	</div>
-	<a href="/app/compare/detail">Detailed Analysis</a>
+	
 
 	<SimilarityScore {similarity_score}/>
 </main>
@@ -219,8 +220,17 @@
 		margin-right: 10px; /* Add some space between text areas */
 	}
 	.centreelement {
-		width: 100%;
+		width: 80%;
 		padding: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.button {
+		padding: 10px;
+		border: 1px solid white;
+		vertical-align: middle;
 	}
 	.comparebutton {
 		width: 15%;
