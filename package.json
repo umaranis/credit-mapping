@@ -47,6 +47,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.5.3",
 		"jquery": "^3.7.1",
+		"openai": "^4.0.0",
 		"pg": "^8.11.3",
 		"postgres": "^3.3.5"
 	}

@@ -2,10 +2,12 @@
 	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { PageData } from './$types';
-    import SimilarityScore from './SimilarityScore.svelte';
+	import SimilarityScore from './SimilarityScore.svelte';
 
-  import {checkSentenceSimilarity, checkTextSimilarity} from '$lib/aiModel';
+	import { checkSentenceSimilarity, checkTextSimilarity } from '$lib/aiModel';
 	import { compareResult } from '../store';
+	import { aiCommentary } from '$lib/openAI';
+	import { browser } from '$app/environment';
 
 	const currentPage = getContext<Writable<string>>('currentPage');
 	$currentPage = 'compare';
@@ -16,20 +18,21 @@
 		for (let i = 0; i < data.courseDesc.length; i++) {
 			full += data.courseDesc[i].content + '\n\n';
 		}
-	}
-	else {
+	} else if (browser) {
 		full = localStorage.getItem('text1') ?? '';
 	}
 
 	let sentence1 = full;
-	let sentence2 = localStorage.getItem('text2') ?? '';
+	let sentence2 = browser? (localStorage.getItem('text2') ?? '') : '';
 	let similarity_score: number | null = 0;
 	let wordCount1 = 0;
 	let wordCount2 = 0;
+	let aiCommentaryText = '';
 
 	// Function to check sentence similarity
 	async function checkSimilarity() {
-        similarity_score = await checkSentenceSimilarity(sentence1, sentence2);
+		aiCommentaryText = "";
+		similarity_score = await checkSentenceSimilarity(sentence1, sentence2);
 	}
 
 	onMount(() => {
@@ -37,14 +40,22 @@
 		updateWordCount('sentence2');
 	});
 
-  async function compareText() {
-	localStorage.setItem('text1', sentence1);
-	localStorage.setItem('text2', sentence2);
-	const result = await checkTextSimilarity(sentence1, sentence2);
-	console.log(result);	
-	$compareResult = result;
-	similarity_score = result?.final_score ?? null;
-  }
+	async function compareText() {
+		aiCommentaryText = "";
+		if (browser) {
+			localStorage.setItem('text1', sentence1);
+			localStorage.setItem('text2', sentence2);
+		}
+		const result = await checkTextSimilarity(sentence1, sentence2);
+		console.log(result);
+		$compareResult = result;
+		similarity_score = result?.final_score ?? null;
+	}
+
+	async function aiComment() {
+		const result = await aiCommentary(sentence1, sentence2);
+		aiCommentaryText = result;
+	}
 
 	//WORD COUNTING
 	function updateWordCount(textAreaId: string) {
@@ -155,16 +166,17 @@
 	<br />
 	<div class="centreelement">
 		<button class="comparebutton" id="check_similarity_button" on:click={checkSimilarity}
-			>Check Sentence Similarity</button
+			>Compute Text Similarity</button
 		>
-    	<button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
-			>Check Text Similarity</button
+		<button class="comparebutton" id="check_text_similarity_button" on:click={compareText}
+			>Compute Detailed Comparison</button
 		>
-		<div class="button"><a href="/app/compare/detail">Detailed Analysis</a></div>
+		<div class="button"><a href="/app/compare/detail">View Detailed Analysis</a></div>
+		<button class="comparebutton" id="compare_button" on:click={aiComment}>AI Commentary</button>
 	</div>
-	
 
-	<SimilarityScore {similarity_score}/>
+	<SimilarityScore {similarity_score} />
+	<div style="margin: 30px;"><pre style="white-space:pre-line;">{aiCommentaryText}</pre></div>
 </main>
 
 <style>
@@ -204,7 +216,7 @@
 		font-size: 40px;
 		padding: 30px;
 	}
-	
+
 	.textarea-container {
 		display: flex;
 		justify-content: center;
@@ -220,7 +232,7 @@
 		margin-right: 10px; /* Add some space between text areas */
 	}
 	.centreelement {
-		width: 80%;
+		width: 100%;
 		padding: 10px;
 		display: flex;
 		align-items: center;
