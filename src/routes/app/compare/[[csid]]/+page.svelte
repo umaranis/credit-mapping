@@ -16,7 +16,9 @@
 	let full: string = '';
 	if (data && data.courseDesc) {
 		for (let i = 0; i < data.courseDesc.length; i++) {
-			full += data.courseDesc[i].content + '\n\n';
+			if(data.courseDesc[i].uotype !== 'asced' && data.courseDesc[i].uotype !== 'prglvl') {
+				full += data.courseDesc[i].content + '\n\n';
+			}			
 		}
 	} else if (browser) {
 		full = localStorage.getItem('text1') ?? '';
