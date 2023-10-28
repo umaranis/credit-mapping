@@ -1,38 +1,37 @@
-# create-svelte
+# Credit Mapping Tool
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Install the dependecies
 
-## Creating a project
+- Make sure postgresQL, NodeJS and Python is installed
+- Install `pnpm` (Node Package Manager). You can also use `npm`.
+- Restore the database dump found in `database` folder
+- Change the connection string in `src/lib/db.ts`
+- Run the following command to isntall python dependencies
 
-If you're seeing this, you've probably already done this step. Congrats!
+    ```bash
+    pip install Flask flask_cors PyPDF2 sentence-transformers nltk
+    ```
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- Install NodeJS dependencies
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+    ```bash
+    pnpm i
+    ```
 
-## Developing
+- Change the API key and Organization ID for OpenAI in `src/lib/openAI.ts`. This is only required for AI Commentary feature.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Running the application
 
-```bash
-npm run dev
+- Start PostgresQL database
+- Launch Python Flask server
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+    ```bash
+    cd backend
+    python3 app.py
+    ```
 
-## Building
+- Launch NodeJS Application server
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+    ```bash
+    pnpm dev
+    ```
