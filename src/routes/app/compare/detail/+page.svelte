@@ -50,7 +50,7 @@
 	</h1>
 	<main>
 		<TextContainer
-			heading="Text 1:"
+			heading="Federation University Course:"
 			text_lines={$compareResult.text1_lines}
 			text_lines_scores={text1_lines_scores}
 			bind:selectedIndex={selectedIndex1}
@@ -58,7 +58,7 @@
 			on:lineSelected={handleLineSelection1}
 		/>
 		<TextContainer
-			heading="Text 2:"
+			heading="Other Institution Course:"
 			text_lines={$compareResult.text2_lines}
 			text_lines_scores={text2_lines_scores}
 			bind:selectedIndex={selectedIndex2}

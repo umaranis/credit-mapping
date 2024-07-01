@@ -5,9 +5,9 @@
 
 	$: if (!similarity_score) {
 		color = null;
-	} else if (similarity_score >= 70) {
+	} else if (similarity_score >= 80) {
 		color = 'green';
-	} else if (similarity_score >= 50) {
+	} else if (similarity_score >= 60) {
 		color = 'yellow';
 	} else {
 		color = 'red';
@@ -16,9 +16,9 @@
 	let score_text: string | null;
 	$: if (!similarity_score) {
 		score_text = null;
-	} else if (similarity_score >= 70) {
+	} else if (similarity_score >= 80) {
 		score_text = 'High Similarity: The content is very similar.';
-	} else if (similarity_score >= 50) {
+	} else if (similarity_score >= 60) {
 		score_text = 'Medium Similarity: There is some similarity in the content.';
 	} else {
 		score_text = 'Low Similarity: The content is not very similar.';
