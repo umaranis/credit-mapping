@@ -14,7 +14,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Credit Mapping</strong>
+				<strong class="text-xl uppercase">Compare Text using AI</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
@@ -27,20 +27,20 @@
 				</a>
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href="https://federation.edu.au/"
+					href="https://ibm.com/"
 					target="_blank"
 					rel="noreferrer"
 				>
-					FedUni
+					IBM
 				</a>
-				<a
+				<!-- <a
 					class="btn btn-sm variant-ghost-surface"
 					href="https://github.com/JamesRun19/CreditMapping"
 					target="_blank"
 					rel="noreferrer"
 				>
 					GitHub
-				</a>
+				</a> -->
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>

@@ -112,14 +112,14 @@
 </script>
 
 <main>
-	<p class="title">Compare Courses</p>
+	<p class="title">Compare Texts</p>
 	<!-- Sentence Textareas -->
 	<div class="textarea-container">
 		<div class="textarea-group">
-			<h1>Federation University Course: {data.unitid ? data.unitid : ''}</h1>
+			<h1>Text 1: {data.unitid ? data.unitid : ''}</h1>
 			<textarea
 				id="sentence1"
-				placeholder="Enter Federation University course information here:"
+				placeholder="Enter text for comparison:"
 				style="color: black;"
 				rows="14"
 				cols="80"
@@ -129,10 +129,10 @@
 			<div id="wordCount1">Word count: {wordCount1} /384</div>
 		</div>
 		<div class="textarea-group">
-			<h1>External University Course:</h1>
+			<h1>Text 2:</h1>
 			<textarea
 				id="sentence2"
-				placeholder="Enter External University course information here:"
+				placeholder="Enter text for comparison:"
 				style="color: black;"
 				rows="14"
 				cols="80"
@@ -156,8 +156,8 @@
 			<br /><br />
 			<label for="targetTextarea">Where to upload?:</label>
 			<select style="color: black;" bind:value={selectedTextarea} id="targetTextarea">
-				<option value="sentence1">Federation University Course</option>
-				<option value="sentence2">External University Course</option>
+				<option value="sentence1">Text 1</option>
+				<option value="sentence2">Text 2</option>
 			</select>
 			<br /><br />
 			<input class="pill" type="submit" value="Upload" />
